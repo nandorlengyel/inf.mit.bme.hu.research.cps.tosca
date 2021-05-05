@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Genbutton
+Bundle-SymbolicName: hu.bme.mit.mdsd.genbutton;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Require-Bundle: org.eclipse.ui.workbench,
+ org.eclipse.core.commands,
+ org.eclipse.jface,
+ TOSCA;bundle-version="1.0.0",
+ inf.mit.bme.hu.research.cps.tosca.codegen;bundle-version="1.0.0"

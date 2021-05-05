@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Codegen
+Bundle-SymbolicName: inf.mit.bme.hu.research.cps.tosca.codegen
+Bundle-Version: 1.0.0.qualifier
+Automatic-Module-Name: inf.mit.bme.hu.research.cps.tosca.codegen
+Bundle-RequiredExecutionEnvironment: JavaSE-11
+Require-Bundle: org.eclipse.xtend.lib;bundle-version="2.25.0",
+ TOSCA;bundle-version="1.0.0"
+Export-Package: inf.mit.bme.hu.research.cps.tosca.codegen
