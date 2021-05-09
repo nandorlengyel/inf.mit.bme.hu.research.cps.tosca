@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<dds xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="6.0.0" xsi:noNamespaceSchemaLocation="http://community.rti.com/schema/6.0.0/rti_dds_profiles.xsd">
+    <qos_library name="QosLibrary">
+        <qos_profile base_name="BuiltinQosLib::Generic.StrictReliable" is_default_qos="true" name="DefaultProfile">
+            <participant_qos>
+                <participant_name>
+                    <name>dds_application_1</name>
+                </participant_name>
+            </participant_qos>
+        </qos_profile>
+    </qos_library>
+    <types>
+        <struct extensibility="extensible" name="RadarData">
+            <member name="isOccupied" type="boolean"/>
+            <member name="readTime" type="float"/>
+            <member name="radarId" stringMaxLength="30" type="string"/>
+        </struct>
+    </types>
+    <domain_library name="DDSDomainLibrary">
+        <domain domain_id="0" name="DDSDomain">
+            <register_type name="RadarData" type_ref="RadarData"/>
+            <topic name="dds_topic_2" register_type_ref="RadarData"/>
+        </domain>
+    </domain_library>
+    <domain_participant_library name="dds_application_1ParticipantLibrary">
+        <domain_participant domain_ref="DDSDomainLibrary::DDSDomain" name="dds_application_1Participant">
+            <publisher name="dds_topic_2Publisher">
+                <data_writer name="dds_topic_2Writer" topic_ref="dds_topic_2"/>
+            </publisher>
+        </domain_participant>
+    </domain_participant_library>
+</dds>

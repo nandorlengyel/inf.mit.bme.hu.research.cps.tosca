@@ -1,0 +1,25 @@
+---
+apiVersion: "apps/v1"
+kind: "Deployment"
+metadata:
+  annotations: {}
+  labels:
+    app: "event_based_dds_application_5"
+  name: "event_based_dds_application_5"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: "event_based_dds_application_5"
+  template:
+    metadata:
+      annotations: {}
+      labels:
+        app: "event_based_dds_application_5"
+      name: "event_based_dds_application_5"
+    spec:
+      containers:
+        image: "event_based_dds_application_5:latest"
+        imagePullPolicy: "Never"
+        name: "event_based_dds_application_5"
+      nodeSelector: {}

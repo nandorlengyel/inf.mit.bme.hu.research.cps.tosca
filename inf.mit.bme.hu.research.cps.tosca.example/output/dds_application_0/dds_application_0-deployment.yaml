@@ -1,0 +1,25 @@
+---
+apiVersion: "apps/v1"
+kind: "Deployment"
+metadata:
+  annotations: {}
+  labels:
+    app: "dds_application_0"
+  name: "dds_application_0"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: "dds_application_0"
+  template:
+    metadata:
+      annotations: {}
+      labels:
+        app: "dds_application_0"
+      name: "dds_application_0"
+    spec:
+      containers:
+        image: "dds_application_0:latest"
+        imagePullPolicy: "Never"
+        name: "dds_application_0"
+      nodeSelector: {}
