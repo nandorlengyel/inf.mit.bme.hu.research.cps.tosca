@@ -8,6 +8,12 @@ import java.util.Map
 import java.util.HashMap
 import java.io.File
 import org.open.oasis.docs.tosca.tosca.TNodeTemplate
+import org.eclipse.core.resources.ResourcesPlugin
+import java.nio.file.Paths
+import java.nio.file.Files
+import java.io.BufferedReader
+import java.io.InputStreamReader
+import java.util.Set
 
 class CpsGenerator {
 	DocumentRoot model
@@ -25,21 +31,30 @@ class CpsGenerator {
 		var NodesOutputTopics = new HashMap<String, ArrayList<String>>();
 		var NodesInputTopics = new HashMap<String, ArrayList<String>>();
 
-		collectConnections(relationshipTemplates, NodesOutputTopics, NodesInputTopics);
+		var allTopics = new ArrayList<String>();
+		
+		var IDLTopicPairs = new HashMap<String, ArrayList<String>>();
+		var topicIDLPairs = new HashMap<String, String>();
+		
+		collectConnections(relationshipTemplates, NodesOutputTopics, NodesInputTopics, allTopics);
+		collectIDLTopicPairs(IDLTopicPairs, topicIDLPairs, allTopics, nodeTemplates);
+
+		
 
 		for (nodeTemplate : nodeTemplates) {
 
 			var nodeName = nodeTemplate.id;
 
-			if (nodeTemplate.type.localPart.equals("event_based_dds_app") || nodeTemplate.type.localPart.equals("time_based_dds_app") ) {
+			var outputTopics = NodesOutputTopics.get(nodeName);
+			var inputTopics = NodesInputTopics.get(nodeName);
 
-				var outputTopics = NodesOutputTopics.get(nodeName);
-				var inputTopics = NodesInputTopics.get(nodeName);
+			if(outputTopics === null) outputTopics = new ArrayList<String>();
+			if(inputTopics === null) inputTopics = new ArrayList<String>();
 
-				var IDLTopicPairs = new HashMap<String, ArrayList<String>>();
+			if (nodeTemplate.type.localPart.equals("time_based_dds_app")) {
 
-				if(outputTopics === null) outputTopics = new ArrayList<String>();
-				if(inputTopics === null) inputTopics = new ArrayList<String>();
+				//var IDLTopicPairs = new HashMap<String, ArrayList<String>>();
+				
 
 				// Generate subscriber classes
 				for (topic : inputTopics) {
@@ -54,9 +69,10 @@ class CpsGenerator {
 						createPublisher(topic));
 				}
 
-				collectIDLTopicPairs(IDLTopicPairs, inputTopics, nodeTemplates);
-				collectIDLTopicPairs(IDLTopicPairs, outputTopics, nodeTemplates);
-				
+				collectIDLTopicPairs(IDLTopicPairs, topicIDLPairs, inputTopics, nodeTemplates);
+				collectIDLTopicPairs(IDLTopicPairs, topicIDLPairs, outputTopics, nodeTemplates);
+
+				System.out.println(topicIDLPairs);
 				// Generate Dockerfile
 				CodeGeneratorHelper.createFile(model.eResource, "ParticipantDescriptor", "xml", nodeName,
 					XMLBuilderHelper.createXML(nodeName, model.eResource, inputTopics, outputTopics, IDLTopicPairs));
@@ -72,23 +88,89 @@ class CpsGenerator {
 				// Generate Kubernetes deployment
 				CodeGeneratorHelper.createFile(model.eResource, nodeName + "-deployment", "yaml", nodeName,
 					generateKubernetesDeployment(nodeName));
-				
-				//Cpoy dds_threads.py
+
+				// Cpoy dds_threads.py
 				CodeGeneratorHelper.copyDDSThreads(model.eResource, nodeName);
 
 			}
 
-			if (nodeTemplate.type.localPart.equals("event_based_dds_app")) {
-			}
+		/*if (nodeTemplate.type.localPart.equals("event_based_dds_app")) {
 
-		// var process = Runtime.getRuntime().exec("ping www.stackabuse.com')", null, new File("C:\\Users\\"));
-		// CodeGeneratorHelper.printResults(process);
+		 * 	var project = ResourcesPlugin.getWorkspace().getRoot().getProject(model.eResource.getURI().segment(1));
+
+		 * 	var outputFolder = project.getFolder("output");
+		 * 	var dstPath = outputFolder.getLocationURI().getPath().substring(1);
+
+		 * 	var path = Paths.get(dstPath + "/" + nodeName);
+		 * 	Files.createDirectories(path);
+
+		 * 	var command = "yo fabric:client -- --name \""+nodeName+"\" --channel \"myChannel\" --networkConfigPath \"testconfig_path\" --identityPath \"test_identity_path\" --identity \"test_identity\" --pubContracts \""+outputTopics.toString()+"\" --subContracts \""+inputTopics.toString()+"\"";
+
+		 * 	var builder = new ProcessBuilder("cmd.exe", "/c",
+		 * 		command);
+		 * 	builder = builder.directory(new File(path.toString()));
+		 * 	builder.redirectErrorStream(true);
+		 * 	var p = builder.start();
+		 * 	var r = new BufferedReader(new InputStreamReader(p.getInputStream()));
+		 * 	var line = "";
+
+		 * 	var run = true;
+
+		 * 	while (run) {
+		 * 		line = r.readLine();
+		 * 		if (line == null) {
+		 * 			run = false;
+		 * 		}
+		 * 		System.out.println(line);
+		 * 	}
+
+		 }*/
+		}
+
+		generateTopicContracts(allTopics, topicIDLPairs);
+
+	}
+
+	def generateTopicContracts(ArrayList<String> topics, HashMap<String, String> topicIDLPairs) {
+
+		for (topic : topics) {
+			var project = ResourcesPlugin.getWorkspace().getRoot().getProject(model.eResource.getURI().segment(1));
+			var outputFolder = project.getFolder("output");
+			var dstPath = outputFolder.getLocationURI().getPath().substring(1);
+
+			var path = Paths.get(dstPath + "/" + topic);
+			Files.createDirectories(path);
+
+			var idlFolder = project.getFolder("idl");
+			var idlPath = idlFolder.getLocationURI().getPath().substring(1);
+			
+			var idl = idlPath+"/"+topicIDLPairs.get(topic);
+
+			var command = " yo fabric:contract -- --contractType default --language typescript --name " + topic +
+				"-contract --version 0.0.1 --description \"Smart contract of " + topic +
+				"\" --author \"Lengyel Nándor\" --license Apache-2.0 --asset \"" + topic + "\" --idl \"" + idl + "\"";
+			var builder = new ProcessBuilder("cmd.exe", "/c", command);
+			builder = builder.directory(new File(path.toString()));
+			builder.redirectErrorStream(true);
+			var p = builder.start();
+			var r = new BufferedReader(new InputStreamReader(p.getInputStream()));
+			var line = "";
+
+			var run = true;
+
+			while (run) {
+				line = r.readLine();
+				if (line == null) {
+					run = false;
+				}
+				System.out.println(line);
+			}
 		}
 
 	}
 
 	def collectConnections(EList<TRelationshipTemplate> relationshipTemplates,
-		Map<String, ArrayList<String>> NodesOutputTopics, Map<String, ArrayList<String>> NodesInputTopics) {
+		Map<String, ArrayList<String>> NodesOutputTopics, Map<String, ArrayList<String>> NodesInputTopics, ArrayList<String> allTopic) {
 
 		for (relationshipTemplate : relationshipTemplates) {
 
@@ -101,6 +183,7 @@ class CpsGenerator {
 					NodesOutputTopics.put(sourceElementId, new ArrayList<String>());
 				}
 				NodesOutputTopics.get(sourceElementId).add(targetElementId);
+				allTopic.add(targetElementId);
 			}
 			if (relationshipTemplate.name.equals("SubscribeTo")) {
 
@@ -108,12 +191,14 @@ class CpsGenerator {
 					NodesInputTopics.put(sourceElementId, new ArrayList<String>());
 				}
 				NodesInputTopics.get(sourceElementId).add(targetElementId);
+				if(!allTopic.contains(targetElementId))allTopic.add(targetElementId);
+				
 			}
 		}
 	}
 
-	def collectIDLTopicPairs(Map<String, ArrayList<String>> IDLTopicPairs, ArrayList<String> topics,
-		EList<TNodeTemplate> nodeTemplates) {
+	def collectIDLTopicPairs(Map<String, ArrayList<String>> IDLTopicPairs, Map<String, String> topicIDLPairs,
+		ArrayList<String> topics, EList<TNodeTemplate> nodeTemplates) {
 		for (nodeTemplate : nodeTemplates) {
 
 			var nodeName = nodeTemplate.id;
@@ -127,9 +212,9 @@ class CpsGenerator {
 					if (!IDLTopicPairs.containsKey(deploymentArtifactRef)) {
 						IDLTopicPairs.put(deploymentArtifactRef, new ArrayList<String>());
 					}
-					// if (!IDLTopicPairs.values.contains(nodeName)) {
 					IDLTopicPairs.get(deploymentArtifactRef).add(nodeName);
-				// }
+
+					topicIDLPairs.put(nodeName, deploymentArtifactRef);
 				}
 			}
 		}
