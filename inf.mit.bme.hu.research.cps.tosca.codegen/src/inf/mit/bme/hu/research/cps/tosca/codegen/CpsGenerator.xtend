@@ -69,7 +69,7 @@ class CpsGenerator {
 				collectIDLTopicPairs(IDLTopicPairs, topicIDLPairs, inputTopics, nodeTemplates);
 				collectIDLTopicPairs(IDLTopicPairs, topicIDLPairs, outputTopics, nodeTemplates);
 
-				// Generate Dockerfile
+				// Generate XML file
 				CodeGeneratorHelper.createFile(model.eResource, "ParticipantDescriptor", "xml", nodeName,
 					XMLBuilderHelper.createXML(nodeName, model.eResource, inputTopics, outputTopics, IDLTopicPairs));
 
@@ -85,7 +85,7 @@ class CpsGenerator {
 				CodeGeneratorHelper.createFile(model.eResource, nodeName + "-deployment", "yaml", nodeName,
 					generateKubernetesDeployment(nodeName));
 
-				// Cpoy dds_threads.py
+				// Copy dds_threads.py
 				CodeGeneratorHelper.copyDDSThreads(model.eResource, nodeName);
 
 			}
@@ -236,21 +236,23 @@ class CpsGenerator {
 			«ENDFOR»
 			
 			import rticonnextdds_connector as rti
-			import threading
+			import threading, queue
 			import os
 			from time import sleep
 			
 			connector = rti.Connector("«nodeName»ParticipantLibrary::«nodeName»Participant", "ParticipantDescriptor.xml")
 			lock = threading.RLock()
 			
+			q = queue.Queue()
+			
 			«FOR topic : inputTopics»	
-				«topic»_sub_thread = sub_«threadCounter».«topic»Reader("«topic»", lock, connector)
+				«topic»_sub_thread = sub_«threadCounter».«topic»Reader("«topic»", lock, connector, q)
 				«topic»_sub_thread.start()
 				«{threadCounter++; null}»
 			«ENDFOR»
 			«{threadCounter = 0; null}»
 			«FOR topic : outputTopics»	
-				«topic»_pub_thread = pub_«threadCounter».«topic»Writer("«topic»", lock, connector)
+				«topic»_pub_thread = pub_«threadCounter».«topic»Writer("«topic»", lock, 100, connector, q)
 				«topic»_pub_thread.start()
 				«{threadCounter++; null}»
 			«ENDFOR»
@@ -265,10 +267,15 @@ class CpsGenerator {
 			from dds_threads import WriterThread
 			
 			class «topic»Writer(WriterThread):
-			
 				def produce_data(self, output):
-					print(self.topic_name + " data sent")
+				
+					# IMPORTANT: Implement logic here, i.e.:
 					
+					# if self.queue.qsize() >= 2:
+					#	print("cache: ", self.cache)							
+					#	output.instance.set_dictionary({"x":1,  "y":2})
+					# 	print(self.topic_name + " data sent")
+					# 	output.write()
 		'''
 	}
 
@@ -277,17 +284,17 @@ class CpsGenerator {
 			from dds_threads import ReaderThread
 			
 			class «topic»Reader(ReaderThread):
-			
 				def process_data(self, sample):
-					print(self.topic_name + " data received: ")
-					print(sample.get_dictionary())
-			
+					print(self.topic_name + " data received: ", sample.get_dictionary())
+					sample_dict = sample.get_dictionary()
+					self.queue.put({"«topic»":sample_dict})	
 		'''
 	}
 
 	def generateDockerfile(ArrayList<String> inputTopics, ArrayList<String> outputTopics) {
 		'''	
 			FROM library/ubuntu:bionic
+			ENV PYTHONUNBUFFERED=1
 			«FOR topic : inputTopics»	
 				ADD ./«topic»_subscriber.py «topic»_subscriber.py
 			«ENDFOR»
