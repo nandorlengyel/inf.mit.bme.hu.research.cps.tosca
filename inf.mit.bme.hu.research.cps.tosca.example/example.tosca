@@ -1,423 +1,209 @@
-<?xml version="1.0" encoding="ASCII"?>
-<Definitions targetNamespace="http://inf.mit.bme.hu/research/tosca/servicetemplates" id="winery-defs-for_steIgeneral-CPS_EDGE_DDS" xmlns="http://docs.oasis-open.org/tosca/ns/2011/12" xmlns:selfservice="http://www.eclipse.org/winery/model/selfservice" xmlns:winery="http://www.opentosca.org/winery/extensions/tosca/2013/02/12" xmlns:testwineryopentoscaorg="http://test.winery.opentosca.org">
-    <ServiceTemplate name="edge-cps" targetNamespace="http://inf.mit.bme.hu/research/edmm/servicetemplates" id="edge-cps">
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Definitions targetNamespace="http://inf.mit.bme.hu/research/edmm/servicetemplates" id="winery-defs-for_steIgeneral4-test-fabric" xmlns="http://docs.oasis-open.org/tosca/ns/2011/12" xmlns:selfservice="http://www.eclipse.org/winery/model/selfservice" xmlns:winery="http://www.opentosca.org/winery/extensions/tosca/2013/02/12" xmlns:testwineryopentoscaorg="http://test.winery.opentosca.org">
+    <ServiceTemplate name="test-fabric" targetNamespace="http://inf.mit.bme.hu/research/edmm/servicetemplates" id="test-fabric">
         <TopologyTemplate>
-            <NodeTemplate name="Topic_railway_alerts" minInstances="1" maxInstances="1" type="mitNodetypes:dds_topic" id="dds_topic_0" winery:x="1100" winery:y="100" xmlns:mitNodetypes="http://inf.mit.bme.hu/research/edmm/nodetypes">
+            <NodeTemplate name="od_log" minInstances="1" maxInstances="1" type="mitNodetypes:fabric_client" id="fabric_client_0" winery:x="400" winery:y="304" xmlns:mitNodetypes="http://inf.mit.bme.hu/research/edmm/nodetypes">
+                <Properties>
+                    <Properties xmlns="http://www.example.org"/>
+                </Properties>
+            </NodeTemplate>
+            <NodeTemplate name="co_log" minInstances="1" maxInstances="1" type="mitNodetypes:fabric_client" id="fabric_client_1" winery:x="1134" winery:y="469" xmlns:mitNodetypes="http://inf.mit.bme.hu/research/edmm/nodetypes">
+                <Properties>
+                    <Properties xmlns="http://www.example.org"/>
+                </Properties>
+            </NodeTemplate>
+            <NodeTemplate name="Compute" minInstances="1" maxInstances="1" type="ntyIgeneral:Compute" id="Compute_0" winery:x="107" winery:y="249" xmlns:ntyIgeneral="https://edmm.uni-stuttgart.de/nodetypes">
+                <Properties>
+                    <Properties xmlns="http://www.example.org">
+                        <os_family/>
+                        <machine_image/>
+                        <instance_type/>
+                        <key_name/>
+                        <public_key/>
+                    </Properties>
+                </Properties>
+            </NodeTemplate>
+            <NodeTemplate name="Compute" minInstances="1" maxInstances="1" type="ntyIgeneral:Compute" id="Compute_1" winery:x="723" winery:y="369" xmlns:ntyIgeneral="https://edmm.uni-stuttgart.de/nodetypes">
+                <Properties>
+                    <Properties xmlns="http://www.example.org">
+                        <os_family/>
+                        <machine_image/>
+                        <instance_type/>
+                        <key_name/>
+                        <public_key/>
+                    </Properties>
+                </Properties>
+            </NodeTemplate>
+            <NodeTemplate name="crossing_obstacle_detection" minInstances="1" maxInstances="1" type="mitNodetypes:dds_topic" id="dds_topic_1" winery:x="779" winery:y="252" xmlns:mitNodetypes="http://inf.mit.bme.hu/research/edmm/nodetypes">
+                <Properties>
+                    <Properties xmlns="http://www.example.org"/>
+                </Properties>
                 <DeploymentArtifacts>
-                    <DeploymentArtifact name="Topic_railway_alerts" artifactType="artifacttype:IDL" artifactRef="mitArtifacttemplates:Topic_railway_alerts.idl" xmlns:artifacttype="http://inf.mit.bme.hu/research/edmm/artifacttype" xmlns:mitArtifacttemplates="http://inf.mit.bme.hu/research/edmm/artifacttemplates"/>
+                    <DeploymentArtifact name="Object_detection" artifactType="mitArtifacttypes:IDL" artifactRef="mitArtifacttemplates:Topic_object_detection.idl" xmlns:mitArtifacttemplates="http://inf.mit.bme.hu/research/edmm/artifacttemplates" xmlns:mitArtifacttypes="http://inf.mit.bme.hu/research/edmm/artifacttypes"/>
                 </DeploymentArtifacts>
             </NodeTemplate>
-            <NodeTemplate name="dataflow_element_railway_alerts" minInstances="1" maxInstances="1" type="mitNodetypes:event_based_dds_app" id="event_based_dds_application_0" winery:x="400" winery:y="100" xmlns:mitNodetypes="http://inf.mit.bme.hu/research/edmm/nodetypes">
+            <NodeTemplate name="object_detection" minInstances="1" maxInstances="1" type="mitNodetypes:time_based_dds_app" id="time_based_dds_app_0" winery:x="403" winery:y="196" xmlns:mitNodetypes="http://inf.mit.bme.hu/research/edmm/nodetypes">
+                <Properties>
+                    <Properties xmlns="http://www.example.org"/>
+                </Properties>
+            </NodeTemplate>
+            <NodeTemplate name="stationary_cameras" minInstances="1" maxInstances="1" type="mitNodetypes:time_based_dds_app" id="time_based_dds_app_2" winery:x="396" winery:y="434" xmlns:mitNodetypes="http://inf.mit.bme.hu/research/edmm/nodetypes">
+                <Properties>
+                    <Properties xmlns="http://www.example.org"/>
+                </Properties>
+            </NodeTemplate>
+            <NodeTemplate name="Compute" minInstances="1" maxInstances="1" type="ntyIgeneral:Compute" id="Compute_2" winery:x="96" winery:y="476" xmlns:ntyIgeneral="https://edmm.uni-stuttgart.de/nodetypes">
+                <Properties>
+                    <Properties xmlns="http://www.example.org">
+                        <os_family/>
+                        <machine_image/>
+                        <instance_type/>
+                        <key_name/>
+                        <public_key/>
+                    </Properties>
+                </Properties>
+            </NodeTemplate>
+            <NodeTemplate name="sc_log" minInstances="1" maxInstances="1" type="mitNodetypes:fabric_client" id="fabric_client_2" winery:x="399" winery:y="534" xmlns:mitNodetypes="http://inf.mit.bme.hu/research/edmm/nodetypes">
+                <Properties>
+                    <Properties xmlns="http://www.example.org"/>
+                </Properties>
+            </NodeTemplate>
+            <NodeTemplate name="topic_fixed_video_stream" minInstances="1" maxInstances="1" type="mitNodetypes:dds_topic" id="dds_topic_0" winery:x="781" winery:y="491" xmlns:mitNodetypes="http://inf.mit.bme.hu/research/edmm/nodetypes">
+                <Properties>
+                    <Properties xmlns="http://www.example.org"/>
+                </Properties>
                 <DeploymentArtifacts>
-                    <DeploymentArtifact name="dataflow_element_railway_alerts.jar" artifactType="atyIgeneral:JAR" artifactRef="mitArtifacttemplates:dataflow_element_railway_alerts.jar" xmlns:atyIgeneral="https://edmm.uni-stuttgart.de/artifacttypes" xmlns:mitArtifacttemplates="http://inf.mit.bme.hu/research/edmm/artifacttemplates"/>
+                    <DeploymentArtifact name="Fixed_video_stream" artifactType="artifacttype:IDL" artifactRef="mitArtifacttemplates:Topic_fixed_video_stream.idl" xmlns:artifacttype="http://inf.mit.bme.hu/research/edmm/artifacttype" xmlns:mitArtifacttemplates="http://inf.mit.bme.hu/research/edmm/artifacttemplates"/>
                 </DeploymentArtifacts>
             </NodeTemplate>
-            <RelationshipTemplate name="PublishTo" type="mitRelationtypes:PublishTo" id="con_PublishTo_0" xmlns:mitRelationtypes="http://inf.mit.bme.hu/research/edmm/relationtypes">
-                <SourceElement ref="event_based_dds_application_0"/>
-                <TargetElement ref="dds_topic_0"/>
-            </RelationshipTemplate>
+            <NodeTemplate name="crossing_occupancy" minInstances="1" maxInstances="1" type="mitNodetypes:time_based_dds_app" id="time_based_dds_app_1" winery:x="1143" winery:y="292" xmlns:mitNodetypes="http://inf.mit.bme.hu/research/edmm/nodetypes">
+                <Properties>
+                    <Properties xmlns="http://www.example.org"/>
+                </Properties>
+            </NodeTemplate>
+            <NodeTemplate name="crossing_occupancy" minInstances="1" maxInstances="1" type="mitNodetypes:dds_topic" id="dds_topic_2" winery:x="1446" winery:y="392" xmlns:mitNodetypes="http://inf.mit.bme.hu/research/edmm/nodetypes">
+                <Properties>
+                    <Properties xmlns="http://www.example.org"/>
+                </Properties>
+                <DeploymentArtifacts>
+                    <DeploymentArtifact name="Crossing_occupancy" artifactType="mitArtifacttypes:IDL" artifactRef="mitArtifacttemplates:Topic_crossing_occupancy.idl" xmlns:mitArtifacttemplates="http://inf.mit.bme.hu/research/edmm/artifacttemplates" xmlns:mitArtifacttypes="http://inf.mit.bme.hu/research/edmm/artifacttypes"/>
+                </DeploymentArtifacts>
+            </NodeTemplate>
             <RelationshipTemplate name="HostedOn" type="tyIgeneral:HostedOn" id="con_HostedOn_0" xmlns:tyIgeneral="https://edmm.uni-stuttgart.de/relationtypes">
-                <SourceElement ref="event_based_dds_application_0"/>
+                <Properties>
+                    <Properties xmlns="http://www.example.org"/>
+                </Properties>
+                <SourceElement ref="fabric_client_0"/>
                 <TargetElement ref="Compute_0"/>
             </RelationshipTemplate>
-            <RelationshipTemplate name="SubscribeTo" type="mitRelationtypes:SubscribeTo" id="con_SubscribeTo_7" xmlns:mitRelationtypes="http://inf.mit.bme.hu/research/edmm/relationtypes">
-                <SourceElement ref="event_based_dds_application_0"/>
-                <TargetElement ref="dds_topic_12"/>
-            </RelationshipTemplate>
-            <NodeTemplate name="ubuntu_1" minInstances="1" maxInstances="1" type="ntyIgeneral:Compute" id="Compute_0" winery:x="400" winery:y="230" xmlns:ntyIgeneral="https://edmm.uni-stuttgart.de/nodetypes">
-                <Properties>
-                    <Properties xmlns="https://edmm.uni-stuttgart.de">
-                        <os_family>linux</os_family>
-                        <machine_image>ubuntu</machine_image>
-                        <instance_type>large</instance_type>
-                        <key_name>edmm</key_name>
-                    </Properties>
-                </Properties>
-            </NodeTemplate>
-            <NodeTemplate name="Topic_schedule" minInstances="1" maxInstances="1" type="mitNodetypes:dds_topic" id="dds_topic_1" winery:x="1000" winery:y="250" xmlns:mitNodetypes="http://inf.mit.bme.hu/research/edmm/nodetypes">
-                <DeploymentArtifacts>
-                    <DeploymentArtifact name="Topic_schedule" artifactType="artifacttype:IDL" artifactRef="mitArtifacttemplates:Topic_schedule.idl" xmlns:artifacttype="http://inf.mit.bme.hu/research/edmm/artifacttype" xmlns:mitArtifacttemplates="http://inf.mit.bme.hu/research/edmm/artifacttemplates"/>
-                </DeploymentArtifacts>
-            </NodeTemplate>
-            <NodeTemplate name="dataflow_element_schedule" minInstances="1" maxInstances="1" type="mitNodetypes:time_based_dds_app" id="dds_application_0" winery:x="1700" winery:y="250" xmlns:mitNodetypes="http://inf.mit.bme.hu/research/edmm/nodetypes">
-                <DeploymentArtifacts>
-                    <DeploymentArtifact name="DDS_Threads" artifactType="atyIgeneral:Script" artifactRef="mitArtifacttemplates:dds_threads.py" xmlns:atyIgeneral="https://edmm.uni-stuttgart.de/artifacttypes" xmlns:mitArtifacttemplates="http://inf.mit.bme.hu/research/edmm/artifacttemplates"/>
-                </DeploymentArtifacts>
-            </NodeTemplate>
-            <RelationshipTemplate name="PublishTo" type="mitRelationtypes:PublishTo" id="con_PublishTo_1" xmlns:mitRelationtypes="http://inf.mit.bme.hu/research/edmm/relationtypes">
-                <SourceElement ref="dds_application_0"/>
-                <TargetElement ref="dds_topic_1"/>
-            </RelationshipTemplate>
             <RelationshipTemplate name="HostedOn" type="tyIgeneral:HostedOn" id="con_HostedOn_1" xmlns:tyIgeneral="https://edmm.uni-stuttgart.de/relationtypes">
-                <SourceElement ref="dds_application_0"/>
+                <Properties>
+                    <Properties xmlns="http://www.example.org"/>
+                </Properties>
+                <SourceElement ref="fabric_client_1"/>
                 <TargetElement ref="Compute_1"/>
             </RelationshipTemplate>
-            <NodeTemplate name="ubuntu_2" minInstances="1" maxInstances="1" type="ntyIgeneral:Compute" id="Compute_1" winery:x="1700" winery:y="380" xmlns:ntyIgeneral="https://edmm.uni-stuttgart.de/nodetypes">
-                <Properties>
-                    <Properties xmlns="https://edmm.uni-stuttgart.de">
-                        <os_family>linux</os_family>
-                        <machine_image>ubuntu</machine_image>
-                        <instance_type>large</instance_type>
-                        <key_name>edmm</key_name>
-                    </Properties>
-                </Properties>
-            </NodeTemplate>
-            <NodeTemplate name="Topic_radar" minInstances="1" maxInstances="1" type="mitNodetypes:dds_topic" id="dds_topic_2" winery:x="1100" winery:y="400" xmlns:mitNodetypes="http://inf.mit.bme.hu/research/edmm/nodetypes">
-                <DeploymentArtifacts>
-                    <DeploymentArtifact name="Topic_radar" artifactType="artifacttype:IDL" artifactRef="mitArtifacttemplates:Topic_radar.idl" xmlns:artifacttype="http://inf.mit.bme.hu/research/edmm/artifacttype" xmlns:mitArtifacttemplates="http://inf.mit.bme.hu/research/edmm/artifacttemplates"/>
-                </DeploymentArtifacts>
-            </NodeTemplate>
-            <NodeTemplate name="dataflow_element_radar" minInstances="1" maxInstances="1" type="mitNodetypes:time_based_dds_app" id="dds_application_1" winery:x="400" winery:y="400" xmlns:mitNodetypes="http://inf.mit.bme.hu/research/edmm/nodetypes">
-                <DeploymentArtifacts>
-                    <DeploymentArtifact name="DDS_Threads" artifactType="atyIgeneral:Script" artifactRef="mitArtifacttemplates:dds_threads.py" xmlns:atyIgeneral="https://edmm.uni-stuttgart.de/artifacttypes" xmlns:mitArtifacttemplates="http://inf.mit.bme.hu/research/edmm/artifacttemplates"/>
-                </DeploymentArtifacts>
-            </NodeTemplate>
             <RelationshipTemplate name="PublishTo" type="mitRelationtypes:PublishTo" id="con_PublishTo_2" xmlns:mitRelationtypes="http://inf.mit.bme.hu/research/edmm/relationtypes">
-                <SourceElement ref="dds_application_1"/>
-                <TargetElement ref="dds_topic_2"/>
-            </RelationshipTemplate>
-            <RelationshipTemplate name="HostedOn" type="tyIgeneral:HostedOn" id="con_HostedOn_2" xmlns:tyIgeneral="https://edmm.uni-stuttgart.de/relationtypes">
-                <SourceElement ref="dds_application_1"/>
-                <TargetElement ref="Compute_2"/>
-            </RelationshipTemplate>
-            <NodeTemplate name="ubuntu_3" minInstances="1" maxInstances="1" type="ntyIgeneral:Compute" id="Compute_2" winery:x="400" winery:y="530" xmlns:ntyIgeneral="https://edmm.uni-stuttgart.de/nodetypes">
                 <Properties>
-                    <Properties xmlns="https://edmm.uni-stuttgart.de">
-                        <os_family>linux</os_family>
-                        <machine_image>ubuntu</machine_image>
-                        <instance_type>large</instance_type>
-                        <key_name>edmm</key_name>
-                    </Properties>
+                    <Properties xmlns="http://www.example.org"/>
                 </Properties>
-            </NodeTemplate>
-            <NodeTemplate name="Topic_autonomous_vehicle_commands" minInstances="1" maxInstances="1" type="mitNodetypes:dds_topic" id="dds_topic_3" winery:x="1000" winery:y="550" xmlns:mitNodetypes="http://inf.mit.bme.hu/research/edmm/nodetypes">
-                <DeploymentArtifacts>
-                    <DeploymentArtifact name="Topic_autonomous_vehicle_commands" artifactType="artifacttype:IDL" artifactRef="mitArtifacttemplates:Topic_autonomous_vehicle_commands.idl" xmlns:artifacttype="http://inf.mit.bme.hu/research/edmm/artifacttype" xmlns:mitArtifacttemplates="http://inf.mit.bme.hu/research/edmm/artifacttemplates"/>
-                </DeploymentArtifacts>
-            </NodeTemplate>
-            <NodeTemplate name="dataflow_element_autonomous_vehicle_commands" minInstances="1" maxInstances="1" type="mitNodetypes:event_based_dds_app" id="event_based_dds_application_1" winery:x="1700" winery:y="550" xmlns:mitNodetypes="http://inf.mit.bme.hu/research/edmm/nodetypes">
-                <DeploymentArtifacts>
-                    <DeploymentArtifact name="dataflow_element_autonomous_vehicle_commands.jar" artifactType="atyIgeneral:JAR" artifactRef="mitArtifacttemplates:dataflow_element_autonomous_vehicle_commands.jar" xmlns:atyIgeneral="https://edmm.uni-stuttgart.de/artifacttypes" xmlns:mitArtifacttemplates="http://inf.mit.bme.hu/research/edmm/artifacttemplates"/>
-                </DeploymentArtifacts>
-            </NodeTemplate>
-            <RelationshipTemplate name="PublishTo" type="mitRelationtypes:PublishTo" id="con_PublishTo_3" xmlns:mitRelationtypes="http://inf.mit.bme.hu/research/edmm/relationtypes">
-                <SourceElement ref="event_based_dds_application_1"/>
-                <TargetElement ref="dds_topic_3"/>
-            </RelationshipTemplate>
-            <RelationshipTemplate name="HostedOn" type="tyIgeneral:HostedOn" id="con_HostedOn_3" xmlns:tyIgeneral="https://edmm.uni-stuttgart.de/relationtypes">
-                <SourceElement ref="event_based_dds_application_1"/>
-                <TargetElement ref="Compute_3"/>
-            </RelationshipTemplate>
-            <RelationshipTemplate name="SubscribeTo" type="mitRelationtypes:SubscribeTo" id="con_SubscribeTo_11" xmlns:mitRelationtypes="http://inf.mit.bme.hu/research/edmm/relationtypes">
-                <SourceElement ref="event_based_dds_application_1"/>
-                <TargetElement ref="dds_topic_12"/>
-            </RelationshipTemplate>
-            <NodeTemplate name="ubuntu_4" minInstances="1" maxInstances="1" type="ntyIgeneral:Compute" id="Compute_3" winery:x="1700" winery:y="680" xmlns:ntyIgeneral="https://edmm.uni-stuttgart.de/nodetypes">
-                <Properties>
-                    <Properties xmlns="https://edmm.uni-stuttgart.de">
-                        <os_family>linux</os_family>
-                        <machine_image>ubuntu</machine_image>
-                        <instance_type>large</instance_type>
-                        <key_name>edmm</key_name>
-                    </Properties>
-                </Properties>
-            </NodeTemplate>
-            <NodeTemplate name="Topic_rail_signaling" minInstances="1" maxInstances="1" type="mitNodetypes:dds_topic" id="dds_topic_4" winery:x="1100" winery:y="700" xmlns:mitNodetypes="http://inf.mit.bme.hu/research/edmm/nodetypes">
-                <DeploymentArtifacts>
-                    <DeploymentArtifact name="Topic_rail_signaling" artifactType="artifacttype:IDL" artifactRef="mitArtifacttemplates:Topic_rail_signaling.idl" xmlns:artifacttype="http://inf.mit.bme.hu/research/edmm/artifacttype" xmlns:mitArtifacttemplates="http://inf.mit.bme.hu/research/edmm/artifacttemplates"/>
-                </DeploymentArtifacts>
-            </NodeTemplate>
-            <NodeTemplate name="dataflow_element_rail_signaling" minInstances="1" maxInstances="1" type="mitNodetypes:time_based_dds_app" id="dds_application_2" winery:x="400" winery:y="700" xmlns:mitNodetypes="http://inf.mit.bme.hu/research/edmm/nodetypes">
-                <DeploymentArtifacts>
-                    <DeploymentArtifact name="DDS_Threads" artifactType="atyIgeneral:Script" artifactRef="mitArtifacttemplates:dds_threads.py" xmlns:atyIgeneral="https://edmm.uni-stuttgart.de/artifacttypes" xmlns:mitArtifacttemplates="http://inf.mit.bme.hu/research/edmm/artifacttemplates"/>
-                </DeploymentArtifacts>
-            </NodeTemplate>
-            <RelationshipTemplate name="PublishTo" type="mitRelationtypes:PublishTo" id="con_PublishTo_4" xmlns:mitRelationtypes="http://inf.mit.bme.hu/research/edmm/relationtypes">
-                <SourceElement ref="dds_application_2"/>
-                <TargetElement ref="dds_topic_4"/>
-            </RelationshipTemplate>
-            <RelationshipTemplate name="HostedOn" type="tyIgeneral:HostedOn" id="con_HostedOn_4" xmlns:tyIgeneral="https://edmm.uni-stuttgart.de/relationtypes">
-                <SourceElement ref="dds_application_2"/>
-                <TargetElement ref="Compute_4"/>
-            </RelationshipTemplate>
-            <NodeTemplate name="ubuntu_5" minInstances="1" maxInstances="1" type="ntyIgeneral:Compute" id="Compute_4" winery:x="400" winery:y="830" xmlns:ntyIgeneral="https://edmm.uni-stuttgart.de/nodetypes">
-                <Properties>
-                    <Properties xmlns="https://edmm.uni-stuttgart.de">
-                        <os_family>linux</os_family>
-                        <machine_image>ubuntu</machine_image>
-                        <instance_type>large</instance_type>
-                        <key_name>edmm</key_name>
-                    </Properties>
-                </Properties>
-            </NodeTemplate>
-            <NodeTemplate name="Topic_vehicle_telemetry" minInstances="1" maxInstances="1" type="mitNodetypes:dds_topic" id="dds_topic_5" winery:x="1000" winery:y="850" xmlns:mitNodetypes="http://inf.mit.bme.hu/research/edmm/nodetypes">
-                <DeploymentArtifacts>
-                    <DeploymentArtifact name="Topic_vehicle_telemetry" artifactType="artifacttype:IDL" artifactRef="mitArtifacttemplates:Topic_vehicle_telemetry.idl" xmlns:artifacttype="http://inf.mit.bme.hu/research/edmm/artifacttype" xmlns:mitArtifacttemplates="http://inf.mit.bme.hu/research/edmm/artifacttemplates"/>
-                </DeploymentArtifacts>
-            </NodeTemplate>
-            <NodeTemplate name="dataflow_element_vehicle_telemetry" minInstances="1" maxInstances="1" type="mitNodetypes:time_based_dds_app" id="dds_application_3" winery:x="1700" winery:y="850" xmlns:mitNodetypes="http://inf.mit.bme.hu/research/edmm/nodetypes">
-                <DeploymentArtifacts>
-                    <DeploymentArtifact name="DDS_Threads" artifactType="atyIgeneral:Script" artifactRef="mitArtifacttemplates:dds_threads.py" xmlns:atyIgeneral="https://edmm.uni-stuttgart.de/artifacttypes" xmlns:mitArtifacttemplates="http://inf.mit.bme.hu/research/edmm/artifacttemplates"/>
-                </DeploymentArtifacts>
-            </NodeTemplate>
-            <RelationshipTemplate name="PublishTo" type="mitRelationtypes:PublishTo" id="con_PublishTo_5" xmlns:mitRelationtypes="http://inf.mit.bme.hu/research/edmm/relationtypes">
-                <SourceElement ref="dds_application_3"/>
-                <TargetElement ref="dds_topic_5"/>
-            </RelationshipTemplate>
-            <RelationshipTemplate name="HostedOn" type="tyIgeneral:HostedOn" id="con_HostedOn_5" xmlns:tyIgeneral="https://edmm.uni-stuttgart.de/relationtypes">
-                <SourceElement ref="dds_application_3"/>
-                <TargetElement ref="Compute_5"/>
-            </RelationshipTemplate>
-            <NodeTemplate name="ubuntu_6" minInstances="1" maxInstances="1" type="ntyIgeneral:Compute" id="Compute_5" winery:x="1700" winery:y="980" xmlns:ntyIgeneral="https://edmm.uni-stuttgart.de/nodetypes">
-                <Properties>
-                    <Properties xmlns="https://edmm.uni-stuttgart.de">
-                        <os_family>linux</os_family>
-                        <machine_image>ubuntu</machine_image>
-                        <instance_type>large</instance_type>
-                        <key_name>edmm</key_name>
-                    </Properties>
-                </Properties>
-            </NodeTemplate>
-            <NodeTemplate name="Topic_siren" minInstances="1" maxInstances="1" type="mitNodetypes:dds_topic" id="dds_topic_6" winery:x="1100" winery:y="1000" xmlns:mitNodetypes="http://inf.mit.bme.hu/research/edmm/nodetypes">
-                <DeploymentArtifacts>
-                    <DeploymentArtifact name="Topic_siren" artifactType="artifacttype:IDL" artifactRef="mitArtifacttemplates:Topic_siren.idl" xmlns:artifacttype="http://inf.mit.bme.hu/research/edmm/artifacttype" xmlns:mitArtifacttemplates="http://inf.mit.bme.hu/research/edmm/artifacttemplates"/>
-                </DeploymentArtifacts>
-            </NodeTemplate>
-            <NodeTemplate name="dataflow_element_siren" minInstances="1" maxInstances="1" type="mitNodetypes:event_based_dds_app" id="event_based_dds_application_2" winery:x="400" winery:y="1000" xmlns:mitNodetypes="http://inf.mit.bme.hu/research/edmm/nodetypes">
-                <DeploymentArtifacts>
-                    <DeploymentArtifact name="dataflow_element_siren.jar" artifactType="atyIgeneral:JAR" artifactRef="mitArtifacttemplates:dataflow_element_siren.jar" xmlns:atyIgeneral="https://edmm.uni-stuttgart.de/artifacttypes" xmlns:mitArtifacttemplates="http://inf.mit.bme.hu/research/edmm/artifacttemplates"/>
-                </DeploymentArtifacts>
-            </NodeTemplate>
-            <RelationshipTemplate name="PublishTo" type="mitRelationtypes:PublishTo" id="con_PublishTo_6" xmlns:mitRelationtypes="http://inf.mit.bme.hu/research/edmm/relationtypes">
-                <SourceElement ref="event_based_dds_application_2"/>
-                <TargetElement ref="dds_topic_6"/>
-            </RelationshipTemplate>
-            <RelationshipTemplate name="HostedOn" type="tyIgeneral:HostedOn" id="con_HostedOn_6" xmlns:tyIgeneral="https://edmm.uni-stuttgart.de/relationtypes">
-                <SourceElement ref="event_based_dds_application_2"/>
-                <TargetElement ref="Compute_6"/>
-            </RelationshipTemplate>
-            <RelationshipTemplate name="SubscribeTo" type="mitRelationtypes:SubscribeTo" id="con_SubscribeTo_6" xmlns:mitRelationtypes="http://inf.mit.bme.hu/research/edmm/relationtypes">
-                <SourceElement ref="event_based_dds_application_2"/>
-                <TargetElement ref="dds_topic_12"/>
-            </RelationshipTemplate>
-            <NodeTemplate name="ubuntu_7" minInstances="1" maxInstances="1" type="ntyIgeneral:Compute" id="Compute_6" winery:x="400" winery:y="1130" xmlns:ntyIgeneral="https://edmm.uni-stuttgart.de/nodetypes">
-                <Properties>
-                    <Properties xmlns="https://edmm.uni-stuttgart.de">
-                        <os_family>linux</os_family>
-                        <machine_image>ubuntu</machine_image>
-                        <instance_type>large</instance_type>
-                        <key_name>edmm</key_name>
-                    </Properties>
-                </Properties>
-            </NodeTemplate>
-            <NodeTemplate name="Topic_object_detection" minInstances="1" maxInstances="1" type="mitNodetypes:dds_topic" id="dds_topic_7" winery:x="1000" winery:y="1150" xmlns:mitNodetypes="http://inf.mit.bme.hu/research/edmm/nodetypes">
-                <DeploymentArtifacts>
-                    <DeploymentArtifact name="Topic_object_detection" artifactType="artifacttype:IDL" artifactRef="mitArtifacttemplates:Topic_object_detection.idl" xmlns:artifacttype="http://inf.mit.bme.hu/research/edmm/artifacttype" xmlns:mitArtifacttemplates="http://inf.mit.bme.hu/research/edmm/artifacttemplates"/>
-                </DeploymentArtifacts>
-            </NodeTemplate>
-            <NodeTemplate name="dataflow_element_object_detection" minInstances="1" maxInstances="1" type="mitNodetypes:event_based_dds_app" id="event_based_dds_application_3" winery:x="1700" winery:y="1150" xmlns:mitNodetypes="http://inf.mit.bme.hu/research/edmm/nodetypes">
-                <DeploymentArtifacts>
-                    <DeploymentArtifact name="dataflow_element_object_detection.jar" artifactType="atyIgeneral:JAR" artifactRef="mitArtifacttemplates:dataflow_element_object_detection.jar" xmlns:atyIgeneral="https://edmm.uni-stuttgart.de/artifacttypes" xmlns:mitArtifacttemplates="http://inf.mit.bme.hu/research/edmm/artifacttemplates"/>
-                </DeploymentArtifacts>
-            </NodeTemplate>
-            <RelationshipTemplate name="PublishTo" type="mitRelationtypes:PublishTo" id="con_PublishTo_7" xmlns:mitRelationtypes="http://inf.mit.bme.hu/research/edmm/relationtypes">
-                <SourceElement ref="event_based_dds_application_3"/>
-                <TargetElement ref="dds_topic_7"/>
-            </RelationshipTemplate>
-            <RelationshipTemplate name="HostedOn" type="tyIgeneral:HostedOn" id="con_HostedOn_7" xmlns:tyIgeneral="https://edmm.uni-stuttgart.de/relationtypes">
-                <SourceElement ref="event_based_dds_application_3"/>
-                <TargetElement ref="Compute_7"/>
-            </RelationshipTemplate>
-            <RelationshipTemplate name="SubscribeTo" type="mitRelationtypes:SubscribeTo" id="con_SubscribeTo_5" xmlns:mitRelationtypes="http://inf.mit.bme.hu/research/edmm/relationtypes">
-                <SourceElement ref="event_based_dds_application_3"/>
-                <TargetElement ref="dds_topic_5"/>
-            </RelationshipTemplate>
-            <RelationshipTemplate name="SubscribeTo" type="mitRelationtypes:SubscribeTo" id="con_SubscribeTo_9" xmlns:mitRelationtypes="http://inf.mit.bme.hu/research/edmm/relationtypes">
-                <SourceElement ref="event_based_dds_application_3"/>
-                <TargetElement ref="dds_topic_11"/>
-            </RelationshipTemplate>
-            <NodeTemplate name="ubuntu_8" minInstances="1" maxInstances="1" type="ntyIgeneral:Compute" id="Compute_7" winery:x="1700" winery:y="1280" xmlns:ntyIgeneral="https://edmm.uni-stuttgart.de/nodetypes">
-                <Properties>
-                    <Properties xmlns="https://edmm.uni-stuttgart.de">
-                        <os_family>linux</os_family>
-                        <machine_image>ubuntu</machine_image>
-                        <instance_type>large</instance_type>
-                        <key_name>edmm</key_name>
-                    </Properties>
-                </Properties>
-            </NodeTemplate>
-            <NodeTemplate name="Topic_crossing_occupancy" minInstances="1" maxInstances="1" type="mitNodetypes:dds_topic" id="dds_topic_8" winery:x="1100" winery:y="1300" xmlns:mitNodetypes="http://inf.mit.bme.hu/research/edmm/nodetypes">
-                <DeploymentArtifacts>
-                    <DeploymentArtifact name="Topic_crossing_occupancy" artifactType="artifacttype:IDL" artifactRef="mitArtifacttemplates:Topic_crossing_occupancy.idl" xmlns:artifacttype="http://inf.mit.bme.hu/research/edmm/artifacttype" xmlns:mitArtifacttemplates="http://inf.mit.bme.hu/research/edmm/artifacttemplates"/>
-                </DeploymentArtifacts>
-            </NodeTemplate>
-            <NodeTemplate name="dataflow_element_crossing_occupancy" minInstances="1" maxInstances="1" type="mitNodetypes:event_based_dds_app" id="event_based_dds_application_4" winery:x="400" winery:y="1300" xmlns:mitNodetypes="http://inf.mit.bme.hu/research/edmm/nodetypes">
-                <DeploymentArtifacts>
-                    <DeploymentArtifact name="dataflow_element_crossing_occupancy.jar" artifactType="atyIgeneral:JAR" artifactRef="mitArtifacttemplates:dataflow_element_crossing_occupancy.jar" xmlns:atyIgeneral="https://edmm.uni-stuttgart.de/artifacttypes" xmlns:mitArtifacttemplates="http://inf.mit.bme.hu/research/edmm/artifacttemplates"/>
-                </DeploymentArtifacts>
-            </NodeTemplate>
-            <RelationshipTemplate name="PublishTo" type="mitRelationtypes:PublishTo" id="con_PublishTo_8" xmlns:mitRelationtypes="http://inf.mit.bme.hu/research/edmm/relationtypes">
-                <SourceElement ref="event_based_dds_application_4"/>
-                <TargetElement ref="dds_topic_8"/>
-            </RelationshipTemplate>
-            <RelationshipTemplate name="HostedOn" type="tyIgeneral:HostedOn" id="con_HostedOn_8" xmlns:tyIgeneral="https://edmm.uni-stuttgart.de/relationtypes">
-                <SourceElement ref="event_based_dds_application_4"/>
-                <TargetElement ref="Compute_8"/>
-            </RelationshipTemplate>
-            <RelationshipTemplate name="SubscribeTo" type="mitRelationtypes:SubscribeTo" id="con_SubscribeTo_8" xmlns:mitRelationtypes="http://inf.mit.bme.hu/research/edmm/relationtypes">
-                <SourceElement ref="event_based_dds_application_4"/>
-                <TargetElement ref="dds_topic_2"/>
-            </RelationshipTemplate>
-            <NodeTemplate name="ubuntu_9" minInstances="1" maxInstances="1" type="ntyIgeneral:Compute" id="Compute_8" winery:x="400" winery:y="1430" xmlns:ntyIgeneral="https://edmm.uni-stuttgart.de/nodetypes">
-                <Properties>
-                    <Properties xmlns="https://edmm.uni-stuttgart.de">
-                        <os_family>linux</os_family>
-                        <machine_image>ubuntu</machine_image>
-                        <instance_type>large</instance_type>
-                        <key_name>edmm</key_name>
-                    </Properties>
-                </Properties>
-            </NodeTemplate>
-            <NodeTemplate name="Topic_expectedTTL" minInstances="1" maxInstances="1" type="mitNodetypes:dds_topic" id="dds_topic_9" winery:x="1000" winery:y="1450" xmlns:mitNodetypes="http://inf.mit.bme.hu/research/edmm/nodetypes">
-                <DeploymentArtifacts>
-                    <DeploymentArtifact name="Topic_expectedTTL" artifactType="artifacttype:IDL" artifactRef="mitArtifacttemplates:Topic_expectedTTL.idl" xmlns:artifacttype="http://inf.mit.bme.hu/research/edmm/artifacttype" xmlns:mitArtifacttemplates="http://inf.mit.bme.hu/research/edmm/artifacttemplates"/>
-                </DeploymentArtifacts>
-            </NodeTemplate>
-            <NodeTemplate name="dataflow_element_expectedttl" minInstances="1" maxInstances="1" type="mitNodetypes:event_based_dds_app" id="event_based_dds_application_5" winery:x="1700" winery:y="1450" xmlns:mitNodetypes="http://inf.mit.bme.hu/research/edmm/nodetypes">
-                <DeploymentArtifacts>
-                    <DeploymentArtifact name="dataflow_element_expectedttl.jar" artifactType="atyIgeneral:JAR" artifactRef="mitArtifacttemplates:dataflow_element_expectedttl.jar" xmlns:atyIgeneral="https://edmm.uni-stuttgart.de/artifacttypes" xmlns:mitArtifacttemplates="http://inf.mit.bme.hu/research/edmm/artifacttemplates"/>
-                </DeploymentArtifacts>
-            </NodeTemplate>
-            <RelationshipTemplate name="PublishTo" type="mitRelationtypes:PublishTo" id="con_PublishTo_9" xmlns:mitRelationtypes="http://inf.mit.bme.hu/research/edmm/relationtypes">
-                <SourceElement ref="event_based_dds_application_5"/>
-                <TargetElement ref="dds_topic_9"/>
-            </RelationshipTemplate>
-            <RelationshipTemplate name="HostedOn" type="tyIgeneral:HostedOn" id="con_HostedOn_9" xmlns:tyIgeneral="https://edmm.uni-stuttgart.de/relationtypes">
-                <SourceElement ref="event_based_dds_application_5"/>
-                <TargetElement ref="Compute_9"/>
-            </RelationshipTemplate>
-            <RelationshipTemplate name="SubscribeTo" type="mitRelationtypes:SubscribeTo" id="con_SubscribeTo_1" xmlns:mitRelationtypes="http://inf.mit.bme.hu/research/edmm/relationtypes">
-                <SourceElement ref="event_based_dds_application_5"/>
-                <TargetElement ref="dds_topic_7"/>
-            </RelationshipTemplate>
-            <NodeTemplate name="ubuntu_10" minInstances="1" maxInstances="1" type="ntyIgeneral:Compute" id="Compute_9" winery:x="1700" winery:y="1580" xmlns:ntyIgeneral="https://edmm.uni-stuttgart.de/nodetypes">
-                <Properties>
-                    <Properties xmlns="https://edmm.uni-stuttgart.de">
-                        <os_family>linux</os_family>
-                        <machine_image>ubuntu</machine_image>
-                        <instance_type>large</instance_type>
-                        <key_name>edmm</key_name>
-                    </Properties>
-                </Properties>
-            </NodeTemplate>
-            <NodeTemplate name="Topic_train_approach_estimate" minInstances="1" maxInstances="1" type="mitNodetypes:dds_topic" id="dds_topic_10" winery:x="1100" winery:y="1600" xmlns:mitNodetypes="http://inf.mit.bme.hu/research/edmm/nodetypes">
-                <DeploymentArtifacts>
-                    <DeploymentArtifact name="Topic_train_approach_estimate" artifactType="artifacttype:IDL" artifactRef="mitArtifacttemplates:Topic_train_approach_estimate.idl" xmlns:artifacttype="http://inf.mit.bme.hu/research/edmm/artifacttype" xmlns:mitArtifacttemplates="http://inf.mit.bme.hu/research/edmm/artifacttemplates"/>
-                </DeploymentArtifacts>
-            </NodeTemplate>
-            <NodeTemplate name="dataflow_element_train_approach_estimate" minInstances="1" maxInstances="1" type="mitNodetypes:event_based_dds_app" id="event_based_dds_application_6" winery:x="400" winery:y="1600" xmlns:mitNodetypes="http://inf.mit.bme.hu/research/edmm/nodetypes">
-                <DeploymentArtifacts>
-                    <DeploymentArtifact name="dataflow_element_train_approach_estimate.jar" artifactType="atyIgeneral:JAR" artifactRef="mitArtifacttemplates:dataflow_element_train_approach_estimate.jar" xmlns:atyIgeneral="https://edmm.uni-stuttgart.de/artifacttypes" xmlns:mitArtifacttemplates="http://inf.mit.bme.hu/research/edmm/artifacttemplates"/>
-                </DeploymentArtifacts>
-            </NodeTemplate>
-            <RelationshipTemplate name="PublishTo" type="mitRelationtypes:PublishTo" id="con_PublishTo_10" xmlns:mitRelationtypes="http://inf.mit.bme.hu/research/edmm/relationtypes">
-                <SourceElement ref="event_based_dds_application_6"/>
-                <TargetElement ref="dds_topic_10"/>
-            </RelationshipTemplate>
-            <RelationshipTemplate name="HostedOn" type="tyIgeneral:HostedOn" id="con_HostedOn_10" xmlns:tyIgeneral="https://edmm.uni-stuttgart.de/relationtypes">
-                <SourceElement ref="event_based_dds_application_6"/>
-                <TargetElement ref="Compute_10"/>
-            </RelationshipTemplate>
-            <RelationshipTemplate name="SubscribeTo" type="mitRelationtypes:SubscribeTo" id="con_SubscribeTo_0" xmlns:mitRelationtypes="http://inf.mit.bme.hu/research/edmm/relationtypes">
-                <SourceElement ref="event_based_dds_application_6"/>
+                <SourceElement ref="fabric_client_0"/>
                 <TargetElement ref="dds_topic_1"/>
             </RelationshipTemplate>
+            <RelationshipTemplate name="SubscribeTo" type="mitRelationtypes:SubscribeTo" id="con_SubscribeTo_0" xmlns:mitRelationtypes="http://inf.mit.bme.hu/research/edmm/relationtypes">
+                <Properties>
+                    <Properties xmlns="http://www.example.org"/>
+                </Properties>
+                <SourceElement ref="fabric_client_1"/>
+                <TargetElement ref="dds_topic_1"/>
+            </RelationshipTemplate>
+            <RelationshipTemplate name="PublishTo" type="mitRelationtypes:PublishTo" id="con_PublishTo_0" xmlns:mitRelationtypes="http://inf.mit.bme.hu/research/edmm/relationtypes">
+                <Properties>
+                    <Properties xmlns="http://www.example.org"/>
+                </Properties>
+                <SourceElement ref="time_based_dds_app_0"/>
+                <TargetElement ref="dds_topic_1"/>
+            </RelationshipTemplate>
+            <RelationshipTemplate name="HostedOn" type="tyIgeneral:HostedOn" id="con_HostedOn_2" xmlns:tyIgeneral="https://edmm.uni-stuttgart.de/relationtypes">
+                <Properties>
+                    <Properties xmlns="http://www.example.org"/>
+                </Properties>
+                <SourceElement ref="time_based_dds_app_0"/>
+                <TargetElement ref="Compute_0"/>
+            </RelationshipTemplate>
+            <RelationshipTemplate name="HostedOn" type="tyIgeneral:HostedOn" id="con_HostedOn_4" xmlns:tyIgeneral="https://edmm.uni-stuttgart.de/relationtypes">
+                <Properties>
+                    <Properties xmlns="http://www.example.org"/>
+                </Properties>
+                <SourceElement ref="time_based_dds_app_2"/>
+                <TargetElement ref="Compute_2"/>
+            </RelationshipTemplate>
+            <RelationshipTemplate name="HostedOn" type="tyIgeneral:HostedOn" id="con_HostedOn_5" xmlns:tyIgeneral="https://edmm.uni-stuttgart.de/relationtypes">
+                <Properties>
+                    <Properties xmlns="http://www.example.org"/>
+                </Properties>
+                <SourceElement ref="fabric_client_2"/>
+                <TargetElement ref="Compute_2"/>
+            </RelationshipTemplate>
+            <RelationshipTemplate name="PublishTo" type="mitRelationtypes:PublishTo" id="con_PublishTo_1" xmlns:mitRelationtypes="http://inf.mit.bme.hu/research/edmm/relationtypes">
+                <Properties>
+                    <Properties xmlns="http://www.example.org"/>
+                </Properties>
+                <SourceElement ref="time_based_dds_app_2"/>
+                <TargetElement ref="dds_topic_0"/>
+            </RelationshipTemplate>
+            <RelationshipTemplate name="PublishTo" type="mitRelationtypes:PublishTo" id="con_PublishTo_3" xmlns:mitRelationtypes="http://inf.mit.bme.hu/research/edmm/relationtypes">
+                <Properties>
+                    <Properties xmlns="http://www.example.org"/>
+                </Properties>
+                <SourceElement ref="fabric_client_2"/>
+                <TargetElement ref="dds_topic_0"/>
+            </RelationshipTemplate>
+            <RelationshipTemplate name="SubscribeTo" type="mitRelationtypes:SubscribeTo" id="con_SubscribeTo_1" xmlns:mitRelationtypes="http://inf.mit.bme.hu/research/edmm/relationtypes">
+                <Properties>
+                    <Properties xmlns="http://www.example.org"/>
+                </Properties>
+                <SourceElement ref="fabric_client_1"/>
+                <TargetElement ref="dds_topic_0"/>
+            </RelationshipTemplate>
             <RelationshipTemplate name="SubscribeTo" type="mitRelationtypes:SubscribeTo" id="con_SubscribeTo_2" xmlns:mitRelationtypes="http://inf.mit.bme.hu/research/edmm/relationtypes">
-                <SourceElement ref="event_based_dds_application_6"/>
-                <TargetElement ref="dds_topic_11"/>
-            </RelationshipTemplate>
-            <RelationshipTemplate name="SubscribeTo" type="mitRelationtypes:SubscribeTo" id="con_SubscribeTo_4" xmlns:mitRelationtypes="http://inf.mit.bme.hu/research/edmm/relationtypes">
-                <SourceElement ref="event_based_dds_application_6"/>
-                <TargetElement ref="dds_topic_4"/>
-            </RelationshipTemplate>
-            <NodeTemplate name="ubuntu_11" minInstances="1" maxInstances="1" type="ntyIgeneral:Compute" id="Compute_10" winery:x="400" winery:y="1730" xmlns:ntyIgeneral="https://edmm.uni-stuttgart.de/nodetypes">
                 <Properties>
-                    <Properties xmlns="https://edmm.uni-stuttgart.de">
-                        <os_family>linux</os_family>
-                        <machine_image>ubuntu</machine_image>
-                        <instance_type>large</instance_type>
-                        <key_name>edmm</key_name>
-                    </Properties>
+                    <Properties xmlns="http://www.example.org"/>
                 </Properties>
-            </NodeTemplate>
-            <NodeTemplate name="Topic_fixed_video_stream" minInstances="1" maxInstances="1" type="mitNodetypes:dds_topic" id="dds_topic_11" winery:x="1000" winery:y="1750" xmlns:mitNodetypes="http://inf.mit.bme.hu/research/edmm/nodetypes">
-                <DeploymentArtifacts>
-                    <DeploymentArtifact name="Topic_fixed_video_stream" artifactType="artifacttype:IDL" artifactRef="mitArtifacttemplates:Topic_fixed_video_stream.idl" xmlns:artifacttype="http://inf.mit.bme.hu/research/edmm/artifacttype" xmlns:mitArtifacttemplates="http://inf.mit.bme.hu/research/edmm/artifacttemplates"/>
-                </DeploymentArtifacts>
-            </NodeTemplate>
-            <NodeTemplate name="dataflow_element_fixed_video_stream" minInstances="1" maxInstances="1" type="mitNodetypes:time_based_dds_app" id="dds_application_4" winery:x="1700" winery:y="1750" xmlns:mitNodetypes="http://inf.mit.bme.hu/research/edmm/nodetypes">
-                <DeploymentArtifacts>
-                    <DeploymentArtifact name="DDS_Threads" artifactType="atyIgeneral:Script" artifactRef="mitArtifacttemplates:dds_threads.py" xmlns:atyIgeneral="https://edmm.uni-stuttgart.de/artifacttypes" xmlns:mitArtifacttemplates="http://inf.mit.bme.hu/research/edmm/artifacttemplates"/>
-                </DeploymentArtifacts>
-            </NodeTemplate>
-            <RelationshipTemplate name="PublishTo" type="mitRelationtypes:PublishTo" id="con_PublishTo_11" xmlns:mitRelationtypes="http://inf.mit.bme.hu/research/edmm/relationtypes">
-                <SourceElement ref="dds_application_4"/>
-                <TargetElement ref="dds_topic_11"/>
-            </RelationshipTemplate>
-            <RelationshipTemplate name="HostedOn" type="tyIgeneral:HostedOn" id="con_HostedOn_11" xmlns:tyIgeneral="https://edmm.uni-stuttgart.de/relationtypes">
-                <SourceElement ref="dds_application_4"/>
-                <TargetElement ref="Compute_11"/>
-            </RelationshipTemplate>
-            <NodeTemplate name="ubuntu_12" minInstances="1" maxInstances="1" type="ntyIgeneral:Compute" id="Compute_11" winery:x="1700" winery:y="1880" xmlns:ntyIgeneral="https://edmm.uni-stuttgart.de/nodetypes">
-                <Properties>
-                    <Properties xmlns="https://edmm.uni-stuttgart.de">
-                        <os_family>linux</os_family>
-                        <machine_image>ubuntu</machine_image>
-                        <instance_type>large</instance_type>
-                        <key_name>edmm</key_name>
-                    </Properties>
-                </Properties>
-            </NodeTemplate>
-            <NodeTemplate name="Topic_risk_level_assessment" minInstances="1" maxInstances="1" type="mitNodetypes:dds_topic" id="dds_topic_12" winery:x="1100" winery:y="1900" xmlns:mitNodetypes="http://inf.mit.bme.hu/research/edmm/nodetypes">
-                <DeploymentArtifacts>
-                    <DeploymentArtifact name="Topic_risk_level_assessment" artifactType="artifacttype:IDL" artifactRef="mitArtifacttemplates:Topic_risk_level_assessment.idl" xmlns:artifacttype="http://inf.mit.bme.hu/research/edmm/artifacttype" xmlns:mitArtifacttemplates="http://inf.mit.bme.hu/research/edmm/artifacttemplates"/>
-                </DeploymentArtifacts>
-            </NodeTemplate>
-            <NodeTemplate name="dataflow_element_risk_level_assessment" minInstances="1" maxInstances="1" type="mitNodetypes:event_based_dds_app" id="event_based_dds_application_7" winery:x="400" winery:y="1900" xmlns:mitNodetypes="http://inf.mit.bme.hu/research/edmm/nodetypes">
-                <DeploymentArtifacts>
-                    <DeploymentArtifact name="dataflow_element_risk_level_assessment.jar" artifactType="atyIgeneral:JAR" artifactRef="mitArtifacttemplates:dataflow_element_risk_level_assessment.jar" xmlns:atyIgeneral="https://edmm.uni-stuttgart.de/artifacttypes" xmlns:mitArtifacttemplates="http://inf.mit.bme.hu/research/edmm/artifacttemplates"/>
-                </DeploymentArtifacts>
-            </NodeTemplate>
-            <RelationshipTemplate name="PublishTo" type="mitRelationtypes:PublishTo" id="con_PublishTo_12" xmlns:mitRelationtypes="http://inf.mit.bme.hu/research/edmm/relationtypes">
-                <SourceElement ref="event_based_dds_application_7"/>
-                <TargetElement ref="dds_topic_12"/>
-            </RelationshipTemplate>
-            <RelationshipTemplate name="HostedOn" type="tyIgeneral:HostedOn" id="con_HostedOn_12" xmlns:tyIgeneral="https://edmm.uni-stuttgart.de/relationtypes">
-                <SourceElement ref="event_based_dds_application_7"/>
-                <TargetElement ref="Compute_12"/>
+                <SourceElement ref="time_based_dds_app_1"/>
+                <TargetElement ref="dds_topic_1"/>
             </RelationshipTemplate>
             <RelationshipTemplate name="SubscribeTo" type="mitRelationtypes:SubscribeTo" id="con_SubscribeTo_3" xmlns:mitRelationtypes="http://inf.mit.bme.hu/research/edmm/relationtypes">
-                <SourceElement ref="event_based_dds_application_7"/>
-                <TargetElement ref="dds_topic_9"/>
-            </RelationshipTemplate>
-            <RelationshipTemplate name="SubscribeTo" type="mitRelationtypes:SubscribeTo" id="con_SubscribeTo_10" xmlns:mitRelationtypes="http://inf.mit.bme.hu/research/edmm/relationtypes">
-                <SourceElement ref="event_based_dds_application_7"/>
-                <TargetElement ref="dds_topic_8"/>
-            </RelationshipTemplate>
-            <RelationshipTemplate name="SubscribeTo" type="mitRelationtypes:SubscribeTo" id="con_SubscribeTo_12" xmlns:mitRelationtypes="http://inf.mit.bme.hu/research/edmm/relationtypes">
-                <SourceElement ref="event_based_dds_application_7"/>
-                <TargetElement ref="dds_topic_10"/>
-            </RelationshipTemplate>
-            <NodeTemplate name="ubuntu_13" minInstances="1" maxInstances="1" type="ntyIgeneral:Compute" id="Compute_12" winery:x="400" winery:y="2030" xmlns:ntyIgeneral="https://edmm.uni-stuttgart.de/nodetypes">
                 <Properties>
-                    <Properties xmlns="https://edmm.uni-stuttgart.de">
-                        <os_family>linux</os_family>
-                        <machine_image>ubuntu</machine_image>
-                        <instance_type>large</instance_type>
-                        <key_name>edmm</key_name>
-                    </Properties>
+                    <Properties xmlns="http://www.example.org"/>
                 </Properties>
-            </NodeTemplate>
+                <SourceElement ref="time_based_dds_app_1"/>
+                <TargetElement ref="dds_topic_0"/>
+            </RelationshipTemplate>
+            <RelationshipTemplate name="HostedOn" type="tyIgeneral:HostedOn" id="con_HostedOn_3" xmlns:tyIgeneral="https://edmm.uni-stuttgart.de/relationtypes">
+                <Properties>
+                    <Properties xmlns="http://www.example.org"/>
+                </Properties>
+                <SourceElement ref="time_based_dds_app_1"/>
+                <TargetElement ref="Compute_1"/>
+            </RelationshipTemplate>
+            <RelationshipTemplate name="PublishTo" type="mitRelationtypes:PublishTo" id="con_PublishTo_4" xmlns:mitRelationtypes="http://inf.mit.bme.hu/research/edmm/relationtypes">
+                <Properties>
+                    <Properties xmlns="http://www.example.org"/>
+                </Properties>
+                <SourceElement ref="time_based_dds_app_1"/>
+                <TargetElement ref="dds_topic_2"/>
+            </RelationshipTemplate>
+            <RelationshipTemplate name="PublishTo" type="mitRelationtypes:PublishTo" id="con_PublishTo_5" xmlns:mitRelationtypes="http://inf.mit.bme.hu/research/edmm/relationtypes">
+                <Properties>
+                    <Properties xmlns="http://www.example.org"/>
+                </Properties>
+                <SourceElement ref="fabric_client_1"/>
+                <TargetElement ref="dds_topic_2"/>
+            </RelationshipTemplate>
         </TopologyTemplate>
     </ServiceTemplate>
 </Definitions>
+
+
+

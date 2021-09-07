@@ -13,7 +13,6 @@ import java.nio.file.Paths
 import java.nio.file.Files
 import java.io.BufferedReader
 import java.io.InputStreamReader
-import java.util.Set
 
 class CpsGenerator {
 	DocumentRoot model
@@ -30,16 +29,15 @@ class CpsGenerator {
 
 		var NodesOutputTopics = new HashMap<String, ArrayList<String>>();
 		var NodesInputTopics = new HashMap<String, ArrayList<String>>();
-
-		var allTopics = new ArrayList<String>();
 		
 		var IDLTopicPairs = new HashMap<String, ArrayList<String>>();
 		var topicIDLPairs = new HashMap<String, String>();
+			
+		var allTopics = new ArrayList<String>();
 		
 		collectConnections(relationshipTemplates, NodesOutputTopics, NodesInputTopics, allTopics);
-		collectIDLTopicPairs(IDLTopicPairs, topicIDLPairs, allTopics, nodeTemplates);
-
 		
+		collectIDLTopicPairs(IDLTopicPairs, topicIDLPairs, allTopics, nodeTemplates);
 
 		for (nodeTemplate : nodeTemplates) {
 
@@ -51,10 +49,9 @@ class CpsGenerator {
 			if(outputTopics === null) outputTopics = new ArrayList<String>();
 			if(inputTopics === null) inputTopics = new ArrayList<String>();
 
-			if (nodeTemplate.type.localPart.equals("time_based_dds_app")) {
+			if (nodeTemplate.type.localPart.equals("time_based_dds_app") || nodeTemplate.type.localPart.equals("event_based_dds_app")) {
 
-				//var IDLTopicPairs = new HashMap<String, ArrayList<String>>();
-				
+				IDLTopicPairs = new HashMap<String, ArrayList<String>>();	
 
 				// Generate subscriber classes
 				for (topic : inputTopics) {
@@ -72,7 +69,6 @@ class CpsGenerator {
 				collectIDLTopicPairs(IDLTopicPairs, topicIDLPairs, inputTopics, nodeTemplates);
 				collectIDLTopicPairs(IDLTopicPairs, topicIDLPairs, outputTopics, nodeTemplates);
 
-				System.out.println(topicIDLPairs);
 				// Generate Dockerfile
 				CodeGeneratorHelper.createFile(model.eResource, "ParticipantDescriptor", "xml", nodeName,
 					XMLBuilderHelper.createXML(nodeName, model.eResource, inputTopics, outputTopics, IDLTopicPairs));
@@ -94,39 +90,41 @@ class CpsGenerator {
 
 			}
 
-		/*if (nodeTemplate.type.localPart.equals("event_based_dds_app")) {
+		if (nodeTemplate.type.localPart.equals("fabric_client")) {
 
-		 * 	var project = ResourcesPlugin.getWorkspace().getRoot().getProject(model.eResource.getURI().segment(1));
+		  	var project = ResourcesPlugin.getWorkspace().getRoot().getProject(model.eResource.getURI().segment(1));
 
-		 * 	var outputFolder = project.getFolder("output");
-		 * 	var dstPath = outputFolder.getLocationURI().getPath().substring(1);
+		 	var outputFolder = project.getFolder("output");
+		  	var dstPath = outputFolder.getLocationURI().getPath().substring(1);
 
-		 * 	var path = Paths.get(dstPath + "/" + nodeName);
-		 * 	Files.createDirectories(path);
+		  	var path = Paths.get(dstPath + "/" + nodeName);
+		  	Files.createDirectories(path);
 
-		 * 	var command = "yo fabric:client -- --name \""+nodeName+"\" --channel \"myChannel\" --networkConfigPath \"testconfig_path\" --identityPath \"test_identity_path\" --identity \"test_identity\" --pubContracts \""+outputTopics.toString()+"\" --subContracts \""+inputTopics.toString()+"\"";
+		  	var command = "yo fabric:client -- --name \""+nodeName+"\" --channel \"myChannel\" --networkConfigPath \"testconfig_path\" --identityPath \"test_identity_path\" --identity \"test_identity\" --pubContracts \""+outputTopics.toString()+"\" --subContracts \""+inputTopics.toString()+"\"";
 
-		 * 	var builder = new ProcessBuilder("cmd.exe", "/c",
-		 * 		command);
-		 * 	builder = builder.directory(new File(path.toString()));
-		 * 	builder.redirectErrorStream(true);
-		 * 	var p = builder.start();
-		 * 	var r = new BufferedReader(new InputStreamReader(p.getInputStream()));
-		 * 	var line = "";
+		 	var builder = new ProcessBuilder("cmd.exe", "/c",
+		  		command);
+		  	builder = builder.directory(new File(path.toString()));
+		 	builder.redirectErrorStream(true);
+		  	var p = builder.start();
+		  	var r = new BufferedReader(new InputStreamReader(p.getInputStream()));
+		  	var line = "";
 
-		 * 	var run = true;
+		  	var run = true;
 
-		 * 	while (run) {
-		 * 		line = r.readLine();
-		 * 		if (line == null) {
-		 * 			run = false;
-		 * 		}
-		 * 		System.out.println(line);
-		 * 	}
+		  	while (run) {
+		  		line = r.readLine();
+		  		if (line == null) {
+		  			run = false;
+		 		}
+		  		System.out.println(line);
+		  	}
 
-		 }*/
+		 }
 		}
-
+		
+		System.out.println(topicIDLPairs);
+		System.out.println(allTopics);
 		generateTopicContracts(allTopics, topicIDLPairs);
 
 	}
@@ -183,7 +181,7 @@ class CpsGenerator {
 					NodesOutputTopics.put(sourceElementId, new ArrayList<String>());
 				}
 				NodesOutputTopics.get(sourceElementId).add(targetElementId);
-				allTopic.add(targetElementId);
+				if(!allTopic.contains(targetElementId))allTopic.add(targetElementId);
 			}
 			if (relationshipTemplate.name.equals("SubscribeTo")) {
 
@@ -291,10 +289,10 @@ class CpsGenerator {
 		'''	
 			FROM library/ubuntu:bionic
 			«FOR topic : inputTopics»	
-				ADD ./«topic»_subscriber.py 
+				ADD ./«topic»_subscriber.py «topic»_subscriber.py
 			«ENDFOR»
 			«FOR topic : outputTopics»	
-				ADD ./«topic»_publisher.py
+				ADD ./«topic»_publisher.py «topic»_publisher.py
 			«ENDFOR»
 			ADD ./main.py main.py
 			ADD ./ParticipantDescriptor.xml ParticipantDescriptor.xml
@@ -308,7 +306,10 @@ class CpsGenerator {
 		'''
 	}
 
-	def generateKubernetesDeployment(String nodeName) {
+	def generateKubernetesDeployment(String rawNodeName) {
+		
+		var nodeName = rawNodeName.replace("_","-");
+		
 		'''
 			---
 			apiVersion: "apps/v1"
@@ -331,6 +332,7 @@ class CpsGenerator {
 			      name: "«nodeName»"
 			    spec:
 			      containers:
+			      - env:
 			        image: "«nodeName»:latest"
 			        imagePullPolicy: "Never"
 			        name: "«nodeName»"

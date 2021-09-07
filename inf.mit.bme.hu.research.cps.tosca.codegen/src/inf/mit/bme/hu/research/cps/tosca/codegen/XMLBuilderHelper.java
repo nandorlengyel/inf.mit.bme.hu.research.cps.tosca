@@ -38,7 +38,7 @@ public class XMLBuilderHelper {
             .a("domain_id", "0");
 
         for (String topicXML : topicXMLs.keySet()) {
-
+        	
             String topicXMLString = CodeGeneratorHelper.readFileToString(nextTo,"idl", topicXML);
 
             Scanner scanner = new Scanner(topicXMLString);
